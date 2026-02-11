@@ -137,3 +137,6 @@ mysql> select c.id,c.first_name from customers as c left join orders o on c.id=o
 +----+------------+
 2 rows in set (0.00 sec)
 
+
+
+sets------------------------
