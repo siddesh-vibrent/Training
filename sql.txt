@@ -139,4 +139,80 @@ mysql> select c.id,c.first_name from customers as c left join orders o on c.id=o
 
 
 
-sets------------------------
+sets
+
+union
+mysql> select first_name from customers
+    -> union
+    -> select person_name from persons;
++------------------+
+| first_name       |
++------------------+
+| Maria            |
+| John             |
+| Georg            |
+| Martin           |
+| Peter            |
+| Siddesh Amrutkar |
+| siddesh          |
++------------------+
+7 rows in set (0.01 sec)
+
+
+union all
+mysql> select first_name from customers
+    -> union all
+    -> select person_name from persons;
++------------------+
+| first_name       |
++------------------+
+| Siddesh Amrutkar |
+| John             |
+| Georg            |
+| Martin           |
+| Peter            |
+| Siddesh Amrutkar |
+| Maria            |
+| siddesh          |
+| siddesh          |
++------------------+
+9 rows in set (0.00 sec)
+
+
+
+except
+mysql> select id,first_name from customers
+    -> except
+    -> select id,person_name from persons;
++----+------------+
+| id | first_name |
++----+------------+
+|  1 | Maria      |
+|  2 | John       |
+|  3 | Georg      |
+|  4 | Martin     |
+|  5 | Peter      |
++----+------------+
+
+
+
+intersect
+mysql> select first_name from customers
+    -> union all
+    -> select person_name from persons;
++------------------+
+| first_name       |
++------------------+
+| Siddesh Amrutkar |
+| John             |
+| Georg            |
+| Martin           |
+| Peter            |
+| Siddesh Amrutkar |
+| Maria            |
+| siddesh          |
+| siddesh          |
++------------------+
+9 rows in set (0.00 sec)
+
+mysql>
