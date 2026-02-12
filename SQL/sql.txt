@@ -529,3 +529,96 @@ mysql> SELECT id, person_name,
 |  5 | siddesh          | No Date   |
 +----+------------------+-----------+
 4 rows in set (0.00 sec)
+
+----------------------------
+NULL functions
+----------------------------
+
+mysql> select * from cust;
++----+-----------+-----------+-------+
+| id | firstname | lastname  | score |
++----+-----------+-----------+-------+
+|  1 | Siddesh   | Amrutkar  |    85 |
+|  2 | Maria     | Fernandez |    90 |
+|  3 | John      | NULL      |    75 |
+|  4 | NULL      | Sharma    |    60 |
+|  5 | Anita     | Patil     |  NULL |
+|  6 | NULL      | NULL      |  NULL |
++----+-----------+-----------+-------+
+6 rows in set (0.00 sec)
+
+
+mysql> select firstname,ifnull(score,0) as score from cust;
++-----------+-------+
+| firstname | score |
++-----------+-------+
+| Siddesh   |    85 |
+| Maria     |    90 |
+| John      |    75 |
+| NULL      |    60 |
+| Anita     |     0 |
+| NULL      |     0 |
++-----------+-------+
+6 rows in set (0.00 sec)
+
+mysql>
+
+mysql> SELECT id,
+    -> firstname,
+    -> lastname,
+    -> CONCAT_WS(' ', firstname, lastname) AS fullname
+    -> FROM cust;
++----+-----------+-----------+------------------+
+| id | firstname | lastname  | fullname         |
++----+-----------+-----------+------------------+
+|  1 | Siddesh   | Amrutkar  | Siddesh Amrutkar |
+|  2 | Maria     | Fernandez | Maria Fernandez  |
+|  3 | John      | NULL      | John             |
+|  4 | NULL      | Sharma    | Sharma           |
+|  5 | Anita     | Patil     | Anita Patil      |
+|  6 | NULL      | NULL      |                  |
++----+-----------+-----------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> select id,
+    -> firstname,lastname,
+    -> score,
+    -> coalesce(score,0)+10 as bonus_score
+    -> from cust;
++----+-----------+-----------+-------+-------------+
+| id | firstname | lastname  | score | bonus_score |
++----+-----------+-----------+-------+-------------+
+|  1 | Siddesh   | Amrutkar  |    85 |          95 |
+|  2 | Maria     | Fernandez |    90 |         100 |
+|  3 | John      | NULL      |    75 |          85 |
+|  4 | NULL      | Sharma    |    60 |          70 |
+|  5 | Anita     | Patil     |  NULL |          10 |
+|  6 | NULL      | NULL      |  NULL |          10 |
++----+-----------+-----------+-------+-------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from marks;
++---------+------------+---------+-------+
+| mark_id | student_id | subject | score |
++---------+------------+---------+-------+
+|     101 |          1 | Math    |    85 |
+|     102 |          2 | Science |    90 |
+|     103 |          3 | Math    |  NULL |
+|     104 |          6 | English |    75 |
+|     105 |       NULL | History |    80 |
+|     106 |          4 | History |   -10 |
++---------+------------+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select mark_id,nullif(score,-10) from marks;
++---------+-------------------+
+| mark_id | nullif(score,-10) |
++---------+-------------------+
+|     101 |                85 |
+|     102 |                90 |
+|     103 |              NULL |
+|     104 |                75 |
+|     105 |                80 |
+|     106 |              NULL |
++---------+-------------------+
+6 rows in set (0.00 sec)
