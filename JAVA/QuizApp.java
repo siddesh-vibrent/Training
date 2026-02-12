@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public class QuizApp {
 
     static int score = 0;
