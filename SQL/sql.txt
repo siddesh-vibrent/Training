@@ -341,3 +341,191 @@ mysql> select person_name,day(birth_date) Date , month(birth_date) Month ,year(b
 4 rows in set (0.00 sec)
 
 mysql>
+-------------------------
+Date functions
+-------------------------
+
+mysql> SELECT id, person_name, DAY(birth_date) AS day_part
+    -> FROM persons;
++----+------------------+----------+
+| id | person_name      | day_part |
++----+------------------+----------+
+|  1 | Siddesh Amrutkar |       12 |
+|  2 | Maria            |        1 |
+|  4 | siddesh          |       25 |
+|  5 | siddesh          |     NULL |
++----+------------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name, MONTH(birth_date) AS month_part
+    -> FROM persons;
++----+------------------+------------+
+| id | person_name      | month_part |
++----+------------------+------------+
+|  1 | Siddesh Amrutkar |          5 |
+|  2 | Maria            |         12 |
+|  4 | siddesh          |         11 |
+|  5 | siddesh          |       NULL |
++----+------------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name, YEAR(birth_date) AS year_part
+    -> FROM persons;
++----+------------------+-----------+
+| id | person_name      | year_part |
++----+------------------+-----------+
+|  1 | Siddesh Amrutkar |      2004 |
+|  2 | Maria            |      2004 |
+|  4 | siddesh          |      2004 |
+|  5 | siddesh          |      NULL |
++----+------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name, EXTRACT(YEAR FROM birth_date) AS year_part
+    -> FROM persons;
++----+------------------+-----------+
+| id | person_name      | year_part |
++----+------------------+-----------+
+|  1 | Siddesh Amrutkar |      2004 |
+|  2 | Maria            |      2004 |
+|  4 | siddesh          |      2004 |
+|  5 | siddesh          |      NULL |
++----+------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name, DAYNAME(birth_date) AS day_name
+    -> FROM persons;
++----+------------------+-----------+
+| id | person_name      | day_name  |
++----+------------------+-----------+
+|  1 | Siddesh Amrutkar | Wednesday |
+|  2 | Maria            | Wednesday |
+|  4 | siddesh          | Thursday  |
+|  5 | siddesh          | NULL      |
++----+------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        DATE_FORMAT(birth_date, '%Y-%m-01') AS month_start
+    -> FROM persons;
++----+------------------+-------------+
+| id | person_name      | month_start |
++----+------------------+-------------+
+|  1 | Siddesh Amrutkar | 2004-05-01  |
+|  2 | Maria            | 2004-12-01  |
+|  4 | siddesh          | 2004-11-01  |
+|  5 | siddesh          | NULL        |
++----+------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        LAST_DAY(birth_date) AS end_of_month
+    -> FROM persons;
++----+------------------+--------------+
+| id | person_name      | end_of_month |
++----+------------------+--------------+
+|  1 | Siddesh Amrutkar | 2004-05-31   |
+|  2 | Maria            | 2004-12-31   |
+|  4 | siddesh          | 2004-11-30   |
+|  5 | siddesh          | NULL         |
++----+------------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        DATE_FORMAT(birth_date, '%d-%m-%Y') AS formatted_date
+    -> FROM persons;
++----+------------------+----------------+
+| id | person_name      | formatted_date |
++----+------------------+----------------+
+|  1 | Siddesh Amrutkar | 12-05-2004     |
+|  2 | Maria            | 01-12-2004     |
+|  4 | siddesh          | 25-11-2004     |
+|  5 | siddesh          | NULL           |
++----+------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        CONVERT(birth_date, CHAR) AS converted_date
+    -> FROM persons;
++----+------------------+----------------+
+| id | person_name      | converted_date |
++----+------------------+----------------+
+|  1 | Siddesh Amrutkar | 2004-05-12     |
+|  2 | Maria            | 2004-12-01     |
+|  4 | siddesh          | 2004-11-25     |
+|  5 | siddesh          | NULL           |
++----+------------------+----------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        CAST(birth_date AS CHAR) AS casted_date
+    -> FROM persons;
++----+------------------+-------------+
+| id | person_name      | casted_date |
++----+------------------+-------------+
+|  1 | Siddesh Amrutkar | 2004-05-12  |
+|  2 | Maria            | 2004-12-01  |
+|  4 | siddesh          | 2004-11-25  |
+|  5 | siddesh          | NULL        |
++----+------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        DATE_ADD(birth_date, INTERVAL 10 DAY) AS plus_10_days
+    -> FROM persons;
++----+------------------+--------------+
+| id | person_name      | plus_10_days |
++----+------------------+--------------+
+|  1 | Siddesh Amrutkar | 2004-05-22   |
+|  2 | Maria            | 2004-12-11   |
+|  4 | siddesh          | 2004-12-05   |
+|  5 | siddesh          | NULL         |
++----+------------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        DATE_ADD(birth_date, INTERVAL 1 YEAR) AS plus_1_year
+    -> FROM persons;
++----+------------------+-------------+
+| id | person_name      | plus_1_year |
++----+------------------+-------------+
+|  1 | Siddesh Amrutkar | 2005-05-12  |
+|  2 | Maria            | 2005-12-01  |
+|  4 | siddesh          | 2005-11-25  |
+|  5 | siddesh          | NULL        |
++----+------------------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        DATEDIFF(CURDATE(), birth_date) AS days_lived
+    -> FROM persons;
++----+------------------+------------+
+| id | person_name      | days_lived |
++----+------------------+------------+
+|  1 | Siddesh Amrutkar |       7946 |
+|  2 | Maria            |       7743 |
+|  4 | siddesh          |       7749 |
+|  5 | siddesh          |       NULL |
++----+------------------+------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT STR_TO_DATE('2024-12-01', '%Y-%m-%d');
++---------------------------------------+
+| STR_TO_DATE('2024-12-01', '%Y-%m-%d') |
++---------------------------------------+
+| 2024-12-01                            |
++---------------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT id, person_name,
+    ->        IFNULL(YEAR(birth_date), 'No Date') AS year_part
+    -> FROM persons;
++----+------------------+-----------+
+| id | person_name      | year_part |
++----+------------------+-----------+
+|  1 | Siddesh Amrutkar | 2004      |
+|  2 | Maria            | 2004      |
+|  4 | siddesh          | 2004      |
+|  5 | siddesh          | No Date   |
++----+------------------+-----------+
+4 rows in set (0.00 sec)
