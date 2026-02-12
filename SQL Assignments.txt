@@ -1,0 +1,12 @@
+------------------------
+Assignment 1
+------------------------
+
+
+mysql> create table users(
+    -> id int primary key,
+    -> name varchar(50) not null,
+    -> email varchar(150) not null unique,
+    -> contact varchar(10));
+Query OK, 0 rows affected (0.10 sec)
+

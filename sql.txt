@@ -299,3 +299,45 @@ mysql> select substring(person_name,3) from persons;
 +--------------------------+
 4 rows in set (0.00 sec)
 
+mysql> select person_name,day(date) as Birth_Day from persons;
+ERROR 1054 (42S22): Unknown column 'date' in 'field list'
+mysql> select person_name,day(birth_date) as Birth_Day from persons;
++------------------+-----------+
+| person_name      | Birth_Day |
++------------------+-----------+
+| Siddesh Amrutkar |        12 |
+| Maria            |         1 |
+| siddesh          |        25 |
+| siddesh          |      NULL |
++------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select person_name,day(birth_date) as Birth_Day from persons where day(birth_date)=25;
++-------------+-----------+
+| person_name | Birth_Day |
++-------------+-----------+
+| siddesh     |        25 |
++-------------+-----------+
+1 row in set (0.00 sec)
+
+mysql>
+mysql> select person_name,day(birth_date) Date , month(birth_date) Month ,year(birth_date) Year  from persons where day(birth_date)=25;
++-------------+------+-------+------+
+| person_name | Date | Month | Year |
++-------------+------+-------+------+
+| siddesh     |   25 |    11 | 2004 |
++-------------+------+-------+------+
+1 row in set (0.00 sec)
+
+mysql> select person_name,day(birth_date) Date , month(birth_date) Month ,year(birth_date) Year  from persons;
++------------------+------+-------+------+
+| person_name      | Date | Month | Year |
++------------------+------+-------+------+
+| Siddesh Amrutkar |   12 |     5 | 2004 |
+| Maria            |    1 |    12 | 2004 |
+| siddesh          |   25 |    11 | 2004 |
+| siddesh          | NULL |  NULL | NULL |
++------------------+------+-------+------+
+4 rows in set (0.00 sec)
+
+mysql>
