@@ -622,3 +622,50 @@ mysql> select mark_id,nullif(score,-10) from marks;
 |     106 |              NULL |
 +---------+-------------------+
 6 rows in set (0.00 sec)
+
+---------------------------------
+CASE STATEMENT
+---------------------------------
+
+mysql> 
+mysql> select firstname,
+    ->    score
+    ->      ,
+    ->      case
+    ->      when score>=90 then 'A+'
+    ->      when score>=80 then
+    ->     'A'
+    ->     when score>=70 then
+    ->     'B'
+    ->     else 'C'
+    ->     end Grades
+    ->     from cust order by Grades desc;
++-----------+-------+--------+
+| firstname | score | Grades |
++-----------+-------+--------+
+| NULL      |    60 | C      |
+|           |  NULL | C      |
+|           |  NULL | C      |
+| John      |    75 | B      |
+| Maria     |    90 | A+     |
+| Siddesh   |    85 | A      |
++-----------+-------+--------+
+6 rows in set (0.00 sec)
+
+mysql> select first_name,country
+    -> ,
+    -> case
+    -> when country='Germany' then 'GM'
+    -> when country='USA' then 'US'
+    -> end countryabbr
+    -> from customers;
++------------------+---------+-------------+
+| first_name       | country | countryabbr |
++------------------+---------+-------------+
+| Siddesh Amrutkar | Germany | GM          |
+| John             | USA     | US          |
+| Georg            | UK      | NULL        |
+| Martin           | Germany | GM          |
+| Peter            | USA     | US          |
++------------------+---------+-------------+
+5 rows in set (0.00 sec)
