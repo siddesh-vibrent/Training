@@ -669,3 +669,97 @@ mysql> select first_name,country
 | Peter            | USA     | US          |
 +------------------+---------+-------------+
 5 rows in set (0.00 sec)
+
+
+-------------------------------
+Window Function Basics
+-------------------------------
+
+mysql> select * from product_orders;
++----+-----------+-------+
+| id | prod_name | sales |
++----+-----------+-------+
+|  1 | caps      |    10 |
+|  2 | caps      |    30 |
+|  3 | gloves    |     5 |
+|  4 | gloves    |    20 |
++----+-----------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> select count(*) as total_orders,
+    -> max(sales) as Max_sales ,min(sales) as Min_sales,
+    -> avg(sales) as Avg_sales, sum(sales) as Total_sales from product_orders;
++--------------+-----------+-----------+-----------+-------------+
+| total_orders | Max_sales | Min_sales | Avg_sales | Total_sales |
++--------------+-----------+-----------+-----------+-------------+
+|            4 |        30 |         5 |   16.2500 |          65 |
++--------------+-----------+-----------+-----------+-------------+
+1 row in set (0.00 sec)
+
+mysql> select prod_name,sum(sales) totalsales from product_orders group by prod_name;
++-----------+------------+
+| prod_name | totalsales |
++-----------+------------+
+| caps      |         40 |
+| gloves    |         25 |
++-----------+------------+
+2 rows in set (1.64 sec)
+
+mysql> SELECT *,
+    -> SUM(sales) OVER() AS total_sales
+    -> FROM product_orders;
++----+-----------+-------+-------------+
+| id | prod_name | sales | total_sales |
++----+-----------+-------+-------------+
+|  1 | caps      |    10 |          65 |
+|  2 | caps      |    30 |          65 |
+|  3 | gloves    |     5 |          65 |
+|  4 | gloves    |    20 |          65 |
++----+-----------+-------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT *,
+    -> SUM(sales) OVER (PARTITION BY prod_name) AS total_per_product
+    -> FROM product_orders;
++----+-----------+-------+-------------------+
+| id | prod_name | sales | total_per_product |
++----+-----------+-------+-------------------+
+|  1 | caps      |    10 |                40 |
+|  2 | caps      |    30 |                40 |
+|  3 | gloves    |     5 |                25 |
+|  4 | gloves    |    20 |                25 |
++----+-----------+-------+-------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT *,
+    -> avg(sales) OVER (PARTITION BY prod_name) AS total_per_product
+    -> FROM product_orders;
++----+-----------+-------+-------------------+
+| id | prod_name | sales | total_per_product |
++----+-----------+-------+-------------------+
+|  1 | caps      |    10 |           20.0000 |
+|  2 | caps      |    30 |           20.0000 |
+|  3 | gloves    |     5 |           12.5000 |
+|  4 | gloves    |    20 |           12.5000 |
++----+-----------+-------+-------------------+
+4 rows in set (0.00 sec)
+
+mysql>
+mysql> SELECT *,
+    -> SUM(sales) OVER (
+    -> PARTITION BY prod_name
+    -> ORDER BY id
+    -> ) AS running_total
+    -> FROM product_orders;
++----+-----------+-------+---------------+
+| id | prod_name | sales | running_total |
++----+-----------+-------+---------------+
+|  1 | caps      |    10 |            10 |
+|  2 | caps      |    30 |            40 |
+|  3 | gloves    |     5 |             5 |
+|  4 | gloves    |    20 |            25 |
++----+-----------+-------+---------------+
+4 rows in set (0.00 sec)
+
+mysql>
